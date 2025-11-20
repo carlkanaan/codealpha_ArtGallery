@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ALPHA ART GALLERY</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        color: #222;
+        background: #fafafa;
+        line-height: 1.4;
+      }
+      .header {
+        width: 100%;
+        background-color: #000;
+        color: #fff;
+        text-align: center;
+        padding: 25px 0;
+        font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+        font-size: 2rem;
+        letter-spacing: 1px;
+      }
+      nav {
+        background-color: #fff;
+        border-bottom: 2px solid #000;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      nav a {
+        color: #000;
+        text-decoration: none;
+        padding: 14px 20px;
+        font-weight: bold;
+        transition: background 0.3s ease, color 0.3s ease;
+      }
+      nav a:hover {
+        background: #000;
+        color: #fff;
+      }
+
+      .wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 16px;
+      }
+
+      .filters {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin: 20px 0 16px;
+        justify-content: center;
+      }
+      .filters button {
+        border: 1px solid #111;
+        background: #fff;
+        padding: 6px 12px;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+      }
+      .filters button.active,
+      .filters button:hover {
+        background: #111;
+        color: #fff;
+      }
+
+      .gallery {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      }
+      .card {
+        position: relative;
+        overflow: hidden;
+        background: #eee;
+        cursor: pointer;
+        aspect-ratio: 4/3;
+      }
+      .card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.3s ease;
+      }
+      .card:hover img {
+        transform: scale(1.04);
+      }
+
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.85);
+        padding: 20px;
+        z-index: 999;
+      }
+      .lightbox.open {
+        display: flex;
+      }
+      .lightbox-inner {
+        position: relative;
+        width: min(1000px, 95vw);
+      }
+      .lightbox-img {
+        width: 100%;
+        max-height: 80vh;
+        object-fit: contain;
+        background: #111;
+        transition: opacity 0.2s ease;
+        border-radius: 6px;
+      }
+      .lightbox-caption {
+        color: #fff;
+        text-align: center;
+        margin-top: 10px;
+        font-size: 0.95rem;
+      }
+      .lb-btn,
+      .lb-close {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.95);
+        border: none;
+        cursor: pointer;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-weight: 700;
+      }
+      .lb-close {
+        top: -42px;
+        right: 0;
+      }
+      .lb-prev {
+        top: 50%;
+        left: 8px;
+        transform: translateY(-50%);
+      }
+      .lb-next {
+        top: 50%;
+        right: 8px;
+        transform: translateY(-50%);
+      }
+      .hide {
+        display: none !important;
+      }
+
+      @media (max-width: 600px) {
+        nav a {
+          padding: 10px;
+          font-size: 0.9rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">ALPHA ART GALLERY</div>
+
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="task1.html">Arts</a>
+      <a href="artist.html">Artists</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+    <main class="wrap">
+      <div class="filters">
+        <button class="active" data-filter="all">All</button>
+        <button data-filter="painting">Paintings</button>
+        <button data-filter="sculpture">Sculpture</button>
+        <button data-filter="photo">Photography</button>
+      </div>
+
+      <section class="gallery">
+        <figure class="card" data-category="painting" data-index="0">
+          <img src="p1.jpeg" alt="Oil on canvas — Morning Haze" />
+        </figure>
+        <figure class="card" data-category="painting" data-index="1">
+          <img src="p2.jpeg" alt="The Westhood Children" />
+        </figure>
+        <figure class="card" data-category="painting" data-index="2">
+          <img src="p3.jpeg" alt="Watson and the Shark" />
+        </figure>
+        <figure class="card" data-category="painting" data-index="3">
+          <img src="p4.jpeg" alt="The Farm" />
+        </figure>
+        <figure class="card" data-category="painting" data-index="4">
+          <img src="p5.jpeg" alt="The Seine" />
+        </figure>
+        <figure class="card" data-category="painting" data-index="5">
+          <img src="p6.jpeg" alt="The Feast of the Gods" />
+        </figure>
+        <figure class="card" data-category="sculpture" data-index="6">
+          <img
+            src="s1.jpeg"
+            alt="Monsignor Francesco Barberini — Gian Lorenzo Bernini, c.1623"
+          />
+        </figure>
+        <figure class="card" data-category="sculpture" data-index="7">
+          <img
+            src="s2.jpeg"
+            alt="Jean-Pierre-Antoine Tassaert — Flemish, 1727–1788"
+          />
+        </figure>
+        <figure class="card" data-category="sculpture" data-index="8">
+          <img
+            src="s3.jpeg"
+            alt="Charles Cushing Wright after Paul Peter Duggan"
+          />
+        </figure>
+        <figure class="card" data-category="photo" data-index="9">
+          <img
+            src="photo1.jpeg"
+            alt="Arturo Toscanini in His Home, Milan (1954/1982) — David Seymour (Chim)"
+          />
+        </figure>
+        <figure class="card" data-category="photo" data-index="10">
+          <img
+            src="photo2.jpeg"
+            alt="Albergo dei Poveri, Naples (1949/1982) — David Seymour (Chim)"
+          />
+        </figure>
+      </section>
+    </main>
+
+    <div class="lightbox">
+      <div class="lightbox-inner">
+        <button class="lb-close">&times;</button>
+        <button class="lb-btn lb-prev">&#10094;</button>
+        <img class="lightbox-img" src="" alt="Artwork preview" />
+        <div class="lightbox-caption"></div>
+        <button class="lb-btn lb-next">&#10095;</button>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        let currentIndex = 0;
+        const cards = $(".card");
+        const lb = $(".lightbox");
+        const lbImg = $(".lightbox-img");
+        const lbCap = $(".lightbox-caption");
+
+        const items = cards
+          .map(function () {
+            const img = $(this).find("img");
+            return { src: img.attr("src"), alt: img.attr("alt") };
+          })
+          .get();
+
+        function showImage(index) {
+          const item = items[index];
+          lbImg
+            .css("opacity", 0)
+            .attr("src", item.src)
+            .attr("alt", item.alt)
+            .on("load", function () {
+              lbImg.css("opacity", 1);
+            });
+          lbCap.text(item.alt);
+        }
+
+        function openLightbox(index) {
+          currentIndex = index;
+          showImage(currentIndex);
+          lb.addClass("open");
+          $("body").css("overflow", "hidden");
+        }
+
+        function closeLightbox() {
+          lb.removeClass("open");
+          $("body").css("overflow", "");
+        }
+
+        $(".lb-next").click(function () {
+          currentIndex = (currentIndex + 1) % items.length;
+          showImage(currentIndex);
+        });
+
+        $(".lb-prev").click(function () {
+          currentIndex = (currentIndex - 1 + items.length) % items.length;
+          showImage(currentIndex);
+        });
+
+        $(".lb-close").click(function () {
+          closeLightbox();
+        });
+
+        cards.click(function () {
+          const index = $(this).data("index");
+          openLightbox(index);
+        });
+
+        lb.click(function (e) {
+          if ($(e.target).is(".lightbox")) closeLightbox();
+        });
+
+        $(document).keydown(function (e) {
+          if (!lb.hasClass("open")) return;
+          if (e.key === "Escape") closeLightbox();
+          if (e.key === "ArrowRight") $(".lb-next").click();
+          if (e.key === "ArrowLeft") $(".lb-prev").click();
+        });
+
+        $(function () {
+          function applyFilterFromHash() {
+            var h = (window.location.hash || "").replace("#", "").toLowerCase();
+            var valid = ["all", "painting", "sculpture", "photo"];
+            if (!h || !valid.includes(h)) h = "all";
+
+            var $btn = $(".filters button[data-filter='" + h + "']");
+            if ($btn.length) {
+              $btn.trigger("click");
+            }
+          }
+          applyFilterFromHash();
+        });
+
+        $(".filters button").click(function () {
+          $(".filters button").removeClass("active");
+          $(this).addClass("active");
+          const filter = $(this).data("filter");
+
+          $(".card").each(function () {
+            const category = $(this).data("category");
+            if (filter === "all" || category === filter) $(this).show();
+            else $(this).hide();
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
